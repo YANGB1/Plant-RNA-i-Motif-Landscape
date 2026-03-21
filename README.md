@@ -2,39 +2,11 @@
 
 This repository contains scripts used for the statistical analysis of RNA i-motifs (iMs) in plants and serves as a companion resource to the manuscript “RNA i-motif landscapes in the plant kingdom and their potential functional roles” enabling full reproducibility of the analyses.
 
-# dependency packages
+# Key dependency packages
 
-Download and install package pbccs from https://github.com/pacificbiosciences/unanimity/. Program ccs in pbccs package is used to generate highly accurate single-molecule consensus reads (HiFi reads) for PacBio data analysis part.
+Download and install Python and following packages: 
 
-Download and install package lima from https://github.com/pacificbiosciences/barcoding/. Program lima is used to demultiplex the reads if reads have been multiplexed before sequencing for PacBio data analysis part.
-
-Download and install package pbtk from https://github.com/pacificbiosciences/pbtk/. Program bam2fasta in pbtk package is used to convert the reads from BAM to FASTA format for PacBio data analysis part.
-
-Download and install package Blasr from https://github.com/pacificbiosciences/blasr. Program blasr is used to map the clean reads to the transcriptome reference for PacBio data analysis part.
-
-Download and install package Dorado from https://github.com/nanoporetech/dorado. Program Dorado is used to process Nanopore raw data including base calling and demultiplexing.
-
-Download and install package IsoQuant from https://github.com/ablab/IsoQuant. Program IsoQuant is used to assign clean reads to the transcriptome reference for Nanopore data analysis part.
-
-Download and install package SeqKit from https://github.com/shenwei356/seqkit. Program SeqKit is used to convert reads in FASTQ format into FASTA format for Nanopore data analysis part.
-
-Download and install package LAST from https://github.com/mcfrith/last-rna. Program LAST is used to align long reads with specific RNA reference for Nanopore data analysis part.
-
-Download and install package Perbase from https://github.com/sstadick/perbase. Program Perbase is used to calculate mismatch landscape for Nanopore data analysis part.
-
-Download and install package SAMtools from https://www.htslib.org/. Program SAMtools is used to convert file format for Nanopore data analysis part.
-
-Download and install package CONTRAfold from http://contra.stanford.edu/contrafold/. Program CONTRAfold is used to fold RNA structure by context-free grammar. CONTRAfold is needed for both Nanopore data and PacBio data.
-
-Download and install Python (v3.7 or above) and following packages: 
-
-    DotMap (https://pypi.org/project/dotmap/)
-  
-    dottree (https://pypi.org/project/dottree/)
-  
-    Biopython (https://biopython.org/)
-  
-    Matplotlib (https://matplotlib.org/)
+    scipy ((https://scipy.org/)
   
     pandas (https://pandas.pydata.org/)
   
@@ -42,20 +14,6 @@ Download and install Python (v3.7 or above) and following packages:
   
     scikit-learn (https://scikit-learn.org/)
   
-    Forgi (https://github.com/ViennaRNA/forgi)
-  
-
-The dependency packages can be installed by:
-``` 
-pip3 install -r requirements.txt
-``` 
-The pipeline can be freely access on GitHub using following command:
-``` 
-git clone https://github.com/YANGB1/DaVinci-pipeline.git
-``` 
-The DaVinci pipeline directory can be added to the ‘PATH’ environmental variable or the scripts with full path can be run alternatively.
-
-Alternatively, the python script 'Putative-iM-Searcher.py' can be downloaded directly from Github. The stored directory can be added to the ‘PATH’ environmental variable or the scripts with full path can be run alternatively.
 
 # Step by step workflow for PacBio analysis
 

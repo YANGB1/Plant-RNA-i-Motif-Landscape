@@ -1,4 +1,4 @@
-# Plant-RNA-i-Motif-Landscape
+# RNA i-Motif Landscape in Plant Kingdom
 
 This repository contains scripts used for the statistical analysis of RNA i-motifs (iMs) in plants and serves as a companion resource to the manuscript “RNA i-motif landscapes in the plant kingdom and their potential functional roles” enabling full reproducibility of the analyses.
 
@@ -13,9 +13,13 @@ Download and install Python and following packages:
     NumPy (https://numpy.org/)
   
     scikit-learn (https://scikit-learn.org/)
-  
 
-# Step by step workflow for PacBio analysis
+Download and install R and following packages: 
+
+
+# Association between iM and environmental variables: Pearson Correlation Coefficient (PCC) and Phylogenetic Generalized Least Squares (PGLS)
+
+# TE-related iM features selection: Spearman Correlation Coefficient (SPCC), Mutual information (MI), u-test, and permutation-based test
 
 Step 1 Obtain the raw PacBio sequencing data. The raw subread data is usually stored in a BAM file. Generate the single-molecule consensus reads (HiFi reads) using program ccs by the following command:
 ``` 

@@ -6,16 +6,20 @@ This repository contains scripts used for the statistical analysis of RNA i-moti
 
 Download and install Python and following packages: 
 
-    scipy ((https://scipy.org/)
+    scipy 
   
-    pandas (https://pandas.pydata.org/)
+    pandas 
   
-    NumPy (https://numpy.org/)
+    NumPy 
   
-    scikit-learn (https://scikit-learn.org/)
+    scikit-learn 
 
 Download and install R and following packages: 
 
+    ape 
+  
+    nlme 
+  
 
 # Association between iM and environmental variables: Pearson Correlation Coefficient (PCC) and Phylogenetic Generalized Least Squares (PGLS)
 

@@ -26,6 +26,7 @@ Download and install R and following packages:
 The Pearson Correlation Coefficient (PCC) calculation: 
 
 
+
 The phylogenetic generalized least squares (PGLS) calculation: 
 
 ``` 
@@ -38,7 +39,7 @@ tree= read.tree(nwk)
 
 
 
-df <- read.csv("iMdesnity_enrichment.txt")
+df <- read.csv("iMdesnity_bioclimateVaria.txt")
 
 #data format is as following (in CSV format):
 #species,iM_density,BIO5
@@ -52,9 +53,9 @@ summary(model)
 ``` 
 
 
-# TE-related iM features selection: Spearman Correlation Coefficient (SPCC), Mutual information (MI), u-test, and permutation-based test
+# TE-related iM features selection
 
-Step 1 Obtain the raw PacBio sequencing data. The raw subread data is usually stored in a BAM file. Generate the single-molecule consensus reads (HiFi reads) using program ccs by the following command:
+Spearman Correlation Coefficient (SPCC), Mutual information (MI), u-test, and permutation-based test
 
 ``` 
 python3 DaVinci_Nanopore.py --input_folder divided_by_RNA_folder --reference_file reference.fasta --output_folder DaVinci_Nanopore_folder --number_of_clusters 3 --target_list all --min_reads_thre 20

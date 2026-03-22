@@ -19,15 +19,20 @@ Download and install R and following packages:
     ape 
   
     nlme 
-  
+
+Example datasets are included in "example" folder.
 
 # Association between iM and environmental variables
 
-The Pearson Correlation Coefficient (PCC) calculation: 
+The Pearson Correlation Coefficient (PCC): 
+
+``` 
+python3 PCC_density_environmental.py
+
+``` 
 
 
-
-The phylogenetic generalized least squares (PGLS) calculation: 
+The phylogenetic generalized least squares (PGLS): 
 
 ``` 
 library(ape)
@@ -59,5 +64,5 @@ summary(model)
 Spearman Correlation Coefficient (SPCC), Mutual information (MI), u-test, and permutation-based test
 
 ``` 
-python3 DaVinci_Nanopore.py --input_folder divided_by_RNA_folder --reference_file reference.fasta --output_folder DaVinci_Nanopore_folder --number_of_clusters 3 --target_list all --min_reads_thre 20
+python3 feature_importance_rice_rebuttal.py
 ``` 

@@ -1,31 +1,16 @@
-import os
-import time
-import sys
-import codecs
-import argparse
-import gc
-import math
 import numpy as np
-import scipy
 from scipy import stats
-from scipy.stats.mstats import kruskalwallis
 from scipy.stats import spearmanr
 from scipy.stats import pearsonr
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
-from scipy.stats import ks_2samp
 
 
-from statsmodels.stats.multitest import multipletests
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
 from statsmodels.stats.multitest import fdrcorrection as fdr
 
 
-import random
 
-from sklearn.feature_selection import mutual_info_regression,mutual_info_classif
+from sklearn.feature_selection import mutual_info_regression
 
 
 def getFeatures(ctrac1,loop1,ctrac2,loop2,ctrac3,loop3,ctrac4):
@@ -169,88 +154,7 @@ def merge_sort(lst,loc):
     merged.extend(right if right else left) 
     return merged
 
-def split_list_into_bins(lst, n_bins):
-    # 确保 n_bins 不大于列表长度
-    n_bins = min(n_bins, len(lst))
-    # 计算每个 bin 的大小
-    bin_size = len(lst) // n_bins
-    remainder = len(lst) % n_bins  # 剩余元素
-    bins = []
-    start = 0
-    for i in range(n_bins):
-        # 每个 bin 分配额外一个元素，直到余数为 0
-        end = start + bin_size + (1 if i < remainder else 0)
-        #bins.append(np.mean(lst[start:end]))
-        bins.append(lst[start:end])
-        start = end
-    return bins
 
-def draw_box(df,title,y_label):
-
-    plt.figure(figsize=(2.5, 5))
-    he=4
-
-    custom_palette = ['#5A00CC', '#FFD700']#, '#a1d8e8', '#67a583', '#a2c986', '#d0e2c0']
-    vi=sns.boxplot(x='Category', y=y_label, data=df, hue='Category',palette=custom_palette)
-    #plt.ylim(0,he)
-    plt.xticks(fontsize=12, fontfamily='Arial', fontweight='bold')
-    plt.yticks(fontsize=12, fontfamily='Arial', fontweight='bold')
-    plt.gca().spines['top'].set_color('black')
-    plt.gca().spines['bottom'].set_color('black')
-    plt.gca().spines['left'].set_color('black')
-    plt.gca().spines['right'].set_color('black')
-    plt.tick_params(colors='black')  # 坐标刻度线为黑色
-    #plt.title("Combined Violin Plots for Multiple Categories", fontdict={'family': 'Arial', 'weight': 'bold', 'size': 16})
-    plt.xlabel("Transcript groups", fontdict={'family': 'Arial', 'weight': 'bold', 'size': 12})
-    plt.ylabel(y_label, fontdict={'family': 'Arial', 'weight': 'bold', 'size': 12})
-    # 隐藏 x 轴坐标
-    plt.gca().tick_params(axis='x', which='both', bottom=False, labelbottom=False)
-    #ax.set_yticklabels([])
-    plt.xlabel("", fontdict={'family': 'Arial', 'weight': 'bold', 'size': 12})
-    plt.ylabel("", fontdict={'family': 'Arial', 'weight': 'bold', 'size': 12})
-    """
-    x1, x2 = 0, 1  # 两组数据在 x 轴上的位置
-    y, h = he + 0.5, 0.2  # y 是标注线的位置，h 是线的高度
-    plt.plot([x1, x1, x2, x2], [y, y + h, y + h, y], lw=1.5, color='black')  # 画标注线
-    plt.text((x1 + x2) * 0.5, y + h, "p < 2.7×10-35", ha='center', va='bottom', color='black')
-    """
-    vio=vi.get_figure()
-    vio.savefig(title+".svg",dpi=400,format='svg')
-    vio.savefig(title+".tif",dpi=400,format='tif')
-    vio.savefig(title+".pdf",dpi=400,format='pdf')
-
-    # Show plot
-    plt.tight_layout()
-    plt.show()
-
-def draw_box2(df,title,y_label):
-
-    plt.figure(figsize=(5.5, 6))
-    he=4
-
-    custom_palette = ['#9467BD', '#FFD700']#, '#a1d8e8', '#67a583', '#a2c986', '#d0e2c0']
-    vi=sns.boxplot(x='Category', y=y_label, data=df, hue='Category',palette=custom_palette)
-    plt.ylim(0,500)
-    plt.xticks(fontsize=12, fontfamily='Arial', fontweight='bold')
-    plt.yticks(fontsize=12, fontfamily='Arial', fontweight='bold')
-    #plt.title("Combined Violin Plots for Multiple Categories", fontdict={'family': 'Arial', 'weight': 'bold', 'size': 16})
-    plt.xlabel("Transcript groups", fontdict={'family': 'Arial', 'weight': 'bold', 'size': 12})
-    plt.ylabel(y_label, fontdict={'family': 'Arial', 'weight': 'bold', 'size': 12})
-
-    """
-    x1, x2 = 0, 1  # 两组数据在 x 轴上的位置
-    y, h = he + 0.5, 0.2  # y 是标注线的位置，h 是线的高度
-    plt.plot([x1, x1, x2, x2], [y, y + h, y + h, y], lw=1.5, color='black')  # 画标注线
-    plt.text((x1 + x2) * 0.5, y + h, "p < 2.7×10-35", ha='center', va='bottom', color='black')
-    """
-    vio=vi.get_figure()
-    vio.savefig(title+".svg",dpi=400,format='svg')
-    vio.savefig(title+".tif",dpi=400,format='tif')
-    vio.savefig(title+".pdf",dpi=400,format='pdf')
-
-    # Show plot
-    plt.tight_layout()
-    plt.show()
     
 name_dic={
     0:"C-tract length",
@@ -298,7 +202,6 @@ translation=read_TE("polysome_and_RNAseq_one_isoform_RiceNip.txt")
 result_file="all_the_statistics_feature_importance_rice_rebuttal.txt"
 
 
-#这个文件只是5'UTR的iM
 n=[]
 x=[]
 fil=[]
@@ -318,11 +221,10 @@ trans=[]
 
 for i in x:
     tmp=rice_with_imotif[i][0]
-    if fil.count("-".join([tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6]]))>1: #过滤了同一个iM序列对应多种TE label的情况
+    if fil.count("-".join([tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6]]))>1: #filter one iM with multiple TE to aviod redundancy.
         continue
     features=getFeatures(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6])
     features.append(tmp[-2])
-    #features.append(tmp[-1]) # 距离start codon的距离,删掉
     X1.append(features)
     trans.append(translation[i])
 print(len(trans),len(X1))
@@ -341,12 +243,10 @@ for i in range(len(X1[0])):
         tmp.append(j[i])
     sp,spp=spearmanr(tmp,trans)
     pr,prp=pearsonr(tmp,trans)
-    #if spp <=0.05:# or prp<=0.05:
     significance_spearman[i]=[sp,spp]
-    #sig.append(i)
+
     significance_pearson[i]=[pr,prp]
-    #print("sp",i+1,spearmanr(tmp,trans))
-    #print("pr",i+1,pearsonr(tmp,trans))
+
 
 
 utest_list=[]
@@ -358,28 +258,18 @@ for i in range(len(X1[0])):
         if trans[j]>=np.mean(trans):#sort_trans[-insert]:#
             tmp1.append(X1[j][i])
         else:
-        #if trans[j]<=sort_trans[insert]:
+
             tmp2.append(X1[j][i])
-    #if sum(tmp1)==0 or sum(tmp2)==0:
-        #print("continue")
-        #continue
-    """
-    gg, pg = stats.levene(tmp1,tmp2)
-    if pg>=0.05:
-      tgt, tgp=stats.ttest_ind(tmp1,tmp2)
-    else:
-      tgt, tgp=stats.ttest_ind(tmp1,tmp2, equal_var = False)
-    #print("T test translation", tgt, tgp)
-    """
+
     tgt, tgp=stats.mannwhitneyu(tmp1,tmp2)
 
     significance_utest[i]=[i, tgt, tgp,np.mean(tmp1),np.mean(tmp2)]
-    #significance_KStest[i]=[i, stat, p_value]
+
     sig.append(i)
     utest_list.append(tgp)
     
 print(len(tmp2),len(tmp1))
-#sig=[i for i in range(0,35)]
+
 poo, v=fdr(utest_list)
 print(poo, v)
 for i in range(len(poo)):
@@ -414,73 +304,12 @@ for i in range(len(utest_permutation_list)):
     print(name_dic[i],utest_permutation_list[i])
 
 
-
-
-
 X=X1
-
 
 
 mi = mutual_info_regression(X, trans,random_state=12345)#,discrete_features=discrete_features)
 
 print(mi)
-
-"""
-#放一起和分开的区别不大
-for i in range(len(X[0])):
-    tmp=[]
-    for j in X:
-        tmp.append([j[i]])
-    tmp_mi=mutual_info_regression(tmp, trans)
-    print(tmp_mi)
-"""
-
-#mi=mutual_info_classif(X,y)#,discrete_features=discrete_features)
-#print("mutual_info_classif(X,y)")
-#print(mi2)
-"""
-print("mutual_info_regression(X, trans)")
-print(mi)
-print(significance_spearman.keys())
-print(significance_pearson.keys())
-print(significance_utest.keys())
-print(significance_KStest.keys())
-print([i for i in range(len(mi)) if mi[i]>0])
-"""
-
-
-
-"""
-good_mi={}
-good_mi_all=[]
-for i in range(len(mi)):
-    if mi[i]>0:
-        good_mi[i]=mi[i]
-        good_mi_all.append([i,mi[i]])
-
-good_mi_all=merge_sort(good_mi_all,1)[::-1]
-
-for i in [j for j in significance_utest.keys() if significance_utest[j][-3] <0.05]:
-    ind=i
-    name_tmp=name_dic[ind]
-    tmp1,tmp2=[],[]
-    for j in range(len(X1)):
-        if trans[j]>=np.mean(trans):#sort_trans[-insert]:#
-            tmp1.append(X1[j][ind])
-        else:
-            tmp2.append(X1[j][ind])
-    tgt, tgp=stats.mannwhitneyu(tmp1,tmp2)
-    print(name_tmp,tgt, tgp)
-"""
-"""
-    data_violin={
-        'Category':   ["High TE transcripts"] * len(tmp1)+["Low TE transcripts"] * len(tmp2),
-        name_tmp: tmp1+tmp2
-    }
-    df_violin= pd.DataFrame(data_violin)
-    draw_box(df_violin,name_tmp+"_Rice",name_tmp)
-"""
-
 
 
 
@@ -501,92 +330,4 @@ for i in range(len(all_mi_permutation[0])):
     if more/permutation<=0.1 and utest_list[i]<=0.05:
         print("\t".join([name_dic[i],str(mi[i]),str(more/permutation),str(significance_spearman[i][0]),
                          str(significance_spearman[i][1]),str(utest_list[i]),str(v[i]),str(utest_permutation_list[i])]))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-for i in [j[0] for j in good_mi_all if  significance_utest[j[0]][-3] <0.05]:#good_mi.keys():
-    more=0
-    for rounds in range(permutation):
-        tmp_trans=np.random.permutation(trans)
-        mi_tmp = mutual_info_regression(X, tmp_trans)#,discrete_features=discrete_features)
-        #tmp_trans=np.random.permutation(y)
-        #mi_tmp = mutual_info_classif(X, tmp_trans)
-        if mi_tmp[i]>=good_mi[i]:
-            more=more+1
-    p_mi[i]=more/permutation
-    print(name_dic[i],more/permutation)
-"""
-
-"""
-out=open(result_file,"w")
-out.write("\t".join(["ID","MI","MI P","SPCC","SPCC P","U test P","Mean value of high TE group",
-                     "Mean value of low TE group"])+"\n")
-for i in good_mi_all:
-    if significance_spearman[i[0]][1]<0.05 or significance_utest[i[0]][-3] <0.05:
-        out.write("\t".join([name_dic[i[0]],str(i[1]),str( p_mi[i[0]]),
-                         str(significance_spearman[i[0]][0]),
-                         str(significance_spearman[i[0]][1]),
-                         str(significance_utest[i[0]][-3]),
-                         str(significance_utest[i[0]][-2]),
-                         str(significance_utest[i[0]][-1])
-                         ])+"\n")
-out.close()
-
-"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-p_mi={}
-for i in good_mi.keys():
-    more=0
-    tmp_feature=[]
-    tmp_other_feature=[]
-    for j in X:
-        tmp_feature.append(j[i])
-        tmp_other_feature.append(j[0:i]+j[i+1:])
-        if j[0:i]+[j[i]]+j[i+1:] != j:
-            print("wrong")
-    for rounds in range(permutation):
-        tmp_permutation_features=np.random.permutation(tmp_feature)
-        tmp_other_feature_round = copy.deepcopy(tmp_other_feature)
-        for nn in range(len(tmp_other_feature_round)):
-            tmp_other_feature_round[nn].append(tmp_permutation_features[nn])
-        mi_tmp = mutual_info_regression(tmp_other_feature_round, trans)#,discrete_features=discrete_features)
-        if mi_tmp[-1]>=good_mi[i]:
-            more=more+1
-    p_mi[i]=more/permutation
-    print(i,more/permutation)
-"""
-        
-    
-    
 

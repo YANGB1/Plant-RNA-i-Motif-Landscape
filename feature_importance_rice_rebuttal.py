@@ -327,7 +327,7 @@ for i in range(len(all_mi_permutation[0])):
     for j in all_mi_permutation:
         if j[i]>mi[i]:
             more=more+1
-    if more/permutation<=0.1 and utest_list[i]<=0.05:
+    if more/permutation<0.05 and utest_list[i]<0.05:
         print("\t".join([name_dic[i],str(mi[i]),str(more/permutation),str(significance_spearman[i][0]),
                          str(significance_spearman[i][1]),str(utest_list[i]),str(v[i]),str(utest_permutation_list[i])]))
 

@@ -307,7 +307,7 @@ for i in range(len(utest_permutation_list)):
 X=X1
 
 
-mi = mutual_info_regression(X, trans,random_state=12345)#,discrete_features=discrete_features)
+mi = mutual_info_regression(X, trans,random_state=12345)
 
 print(mi)
 
@@ -317,9 +317,7 @@ p_mi={}
 all_mi_permutation=[]
 for rounds in range(permutation):
     tmp_trans=np.random.permutation(trans)
-    mi_tmp = mutual_info_regression(X, tmp_trans,random_state=12345)#,discrete_features=discrete_features)
-    #tmp_trans=np.random.permutation(y)
-    #mi_tmp = mutual_info_classif(X, tmp_trans)
+    mi_tmp = mutual_info_regression(X, tmp_trans,random_state=12345)
     all_mi_permutation.append(mi_tmp)
 
 for i in range(len(all_mi_permutation[0])):
